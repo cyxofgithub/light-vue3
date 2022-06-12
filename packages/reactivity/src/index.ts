@@ -1,2 +1,3 @@
-import { test } from '@vue/shared'
-console.log(123);
+export {
+    reactive
+} from "./reactive";

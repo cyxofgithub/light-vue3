@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实现reactivity</title>
+    <!-- <script src="../../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script> -->
+    <script src="./reactivity.global.js"></script>
+</head>
+<body>
+    <script>
+        const { reactive } = VueReactivity
+
+        // 测试初始化, get
+        const woman = { name: 'zhangdanmin'}
+        const a = reactive(woman)
+        console.log(a.name);
+
+        // 测试 set
+        setTimeout(() => {
+            a.name = 'danmin'
+            console.log(a);
+        }, 1000)
+
+        // 测试同一个对象重复reactive，走缓存
+        const b = reactive(woman)
+        console.log(a === b);
+
+        // 测试reactive嵌套
+        const c = reactive(a)
+        console.log(a === c);
+    </script>
+</body>
+</html>
