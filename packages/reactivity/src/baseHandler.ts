@@ -1,4 +1,5 @@
 import { ReactiveFlags } from "./reactive";
+import { track, trigger } from "./effect";
 const get = createGetter();
 const set = createSetter();
 
@@ -15,7 +16,7 @@ function createGetter() {
         // 例如：const a = { name: 'ZHANG', get alias() { return this.name } } 
         // proxyA.alias 我们希望它的 this 指向不是本身而是代理对象就可以使用 Reflect.get(proxyA, alias, receiver)
         const res = Reflect.get(target, key, receiver);
-
+        track(target, key)
         return res;
     };
 }
@@ -25,7 +26,10 @@ function createSetter() {
         // 问题：为什么使用 Reflect.set 去设置值呢
         // 当我们set的key如果是undefined的情况它并不会报TypeError导致后面的代码无法执行
         // 而是返回 false 这可以保证代码的健壮性
-        return Reflect.set(target, key, value, receiver);
+        const result = Reflect.set(target, key, value, receiver);
+        trigger(target, key)
+
+        return result 
     };
 }
 
