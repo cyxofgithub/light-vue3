@@ -9,27 +9,23 @@
     <script src="./reactivity.global.js"></script>
 </head>
 <body>
+    <div id="app"></div>
     <script>
-        const { reactive } = VueReactivity
+        const { reactive, effect } = VueReactivity
 
-        // 测试初始化, get
         const woman = { name: 'zhangdanmin'}
         const a = reactive(woman)
-        console.log(a.name);
 
-        // 测试 set
+        effect(() => {
+            document.getElementById('app').innerHTML = `Her name is ${a.name}`
+        })
+
+        
+       // 测试触发和收集
         setTimeout(() => {
-            a.name = 'danmin'
-            console.log(a);
+            a.name = 666
+            // console.log(a.name);
         }, 1000)
-
-        // 测试同一个对象重复reactive，走缓存
-        const b = reactive(woman)
-        console.log(a === b);
-
-        // 测试reactive嵌套
-        const c = reactive(a)
-        console.log(a === c);
     </script>
 </body>
 </html>

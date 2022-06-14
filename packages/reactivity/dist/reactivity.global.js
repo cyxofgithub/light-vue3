@@ -20,8 +20,43 @@ var VueReactivity = (() => {
   // packages/reactivity/src/index.ts
   var src_exports = {};
   __export(src_exports, {
+    effect: () => effect,
     reactive: () => reactive
   });
+
+  // packages/reactivity/src/effect.ts
+  var activeEffect = void 0;
+  var dep = /* @__PURE__ */ new WeakMap();
+  function track(target, key) {
+    console.log("\u6536\u96C6\u4F9D\u8D56", target, key);
+    if (!activeEffect)
+      return;
+    if (!dep.has(target)) {
+      dep.set(target, /* @__PURE__ */ new Map());
+    }
+    const targetDep = dep.get(target);
+    if (!targetDep.has(key)) {
+      targetDep.set(key, /* @__PURE__ */ new Set());
+    }
+    const keyDep = targetDep.get(key);
+    keyDep.add(activeEffect);
+    activeEffect = void 0;
+    console.log(dep);
+  }
+  function trigger(target, key) {
+    console.log("\u89E6\u53D1\u4F9D\u8D56", target, key);
+    const targetDep = dep.get(target);
+    const keyDep = targetDep.get(key);
+    console.log(keyDep);
+    keyDep.forEach((item) => {
+      console.log(item);
+      item();
+    });
+  }
+  function effect(fn) {
+    activeEffect = fn;
+    fn();
+  }
 
   // packages/reactivity/src/baseHandler.ts
   var get = createGetter();
@@ -32,12 +67,15 @@ var VueReactivity = (() => {
         return true;
       }
       const res = Reflect.get(target, key, receiver);
+      track(target, key);
       return res;
     };
   }
   function createSetter() {
     return function set2(target, key, value, receiver) {
-      return Reflect.set(target, key, value, receiver);
+      const result = Reflect.set(target, key, value, receiver);
+      trigger(target, key);
+      return result;
     };
   }
   var mutableHandlers = {
