@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "test": "jest",
         "dev": "node scripts/dev.js reactivity -f global"
     },
     "keywords": [],
@@ -13,8 +14,11 @@
         "vue": "^3.2.37"
     },
     "devDependencies": {
+        "@types/jest": "^28.1.1",
         "esbuild": "^0.14.43",
+        "jest": "^28.1.1",
         "minimist": "^1.2.6",
+        "ts-jest": "^28.0.5",
         "typescript": "^4.7.3"
     }
 }
