@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/index.ts", "../src/vnode.ts", "../src/h.ts"],
+  "sourcesContent": ["export { h } from './h'", "import { ShapeFlags } from \"packages/shared/src/shapeFlags\";\r\nexport function createVNode(type, props?, children?) {\r\n    const vnode = {\r\n        el: null,\r\n        component: null,\r\n        key: props?.key,\r\n        type,\r\n        props: props || {},\r\n        children,\r\n        shapeFlag: ShapeFlags.ELEMENT,\r\n    };\r\n\r\n    // \u57FA\u4E8E children \u518D\u6B21\u8BBE\u7F6E shapeFlag\r\n    if (Array.isArray(children)) {\r\n        vnode.shapeFlag |= ShapeFlags.ARRAY_CHILDREN; // \u5D4C\u5957\u8282\u70B9\r\n    } else if (typeof children === \"string\") {\r\n        vnode.shapeFlag |= ShapeFlags.TEXT_CHILDREN; // \u6587\u4EF6\u8282\u70B9\r\n    }\r\n\r\n    return vnode\r\n}", "import { createVNode } from \"./vnode\";\r\n\r\nexport function h(type, props?, children?) {\r\n    return createVNode(type, props, children)\r\n}"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;;;ACCO,uBAAqB,MAAM,OAAQ,UAAW;AACjD,UAAM,QAAQ;AAAA,MACV,IAAI;AAAA,MACJ,WAAW;AAAA,MACX,KAAK,+BAAO;AAAA,MACZ;AAAA,MACA,OAAO,SAAS,CAAC;AAAA,MACjB;AAAA,MACA,WAAW;AAAA,IACf;AAGA,QAAI,MAAM,QAAQ,QAAQ,GAAG;AACzB,YAAM,aAAa;AAAA,IACvB,WAAW,OAAO,aAAa,UAAU;AACrC,YAAM,aAAa;AAAA,IACvB;AAEA,WAAO;AAAA,EACX;;;AClBO,aAAW,MAAM,OAAQ,UAAW;AACvC,WAAO,YAAY,MAAM,OAAO,QAAQ;AAAA,EAC5C;",
+  "names": []
+}

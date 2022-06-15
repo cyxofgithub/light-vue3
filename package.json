@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
-        "dev": "node scripts/dev.js reactivity -f global"
+        "dev": "node scripts/dev.js runtime-core -f global",
+        "dev:reactivity": "node scripts/dev.js reactivity -f global"
     },
     "keywords": [],
     "author": "",
