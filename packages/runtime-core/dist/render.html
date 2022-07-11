@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"></div>
+    <!-- <script src="../../../node_modules/@vue/runtime-dom/dist/runtime-dom.global.js"></script> -->
+    <script src="./runtime-core.global.js"></script>
+
+    <script>
+        const { render, h } = VueRuntimeCore
+        const app = document.getElementById('app')
+        // 测试创建单个节点是 vnode
+        // render(h('div', { style: "color: red" }, 'div文本'), app)
+
+        // 测试创建嵌套节点的 vnode
+        // render(h('div', { style: "background-color: yellow" }, '123'), app) // 文本比对
+
+
+        // 乱序更新
+        render(h('div', { style: "background-color: yellow" }, [
+            h('li', { style: "color: pink", key: '1' }, 'li文本1'),
+            h('li', { style: "color: pink", key: '2' }, 'li文本2'), 
+            h('li', { style: "color: pink", key: '3' }, 'li文本3'),
+            h('li', { style: "color: pink", key: '4' }, 'li文本4'),
+            h('li', { style: "color: pink", key: '5' }, 'li文本5')
+            
+        ]), app)
+        setTimeout(() => {
+            // render(h('div', { style: "background-color: yellow" }, '哈哈哈'), app) // 文本比对
+            render(h('div', { style: "background-color: red" }, [
+                h('li', { style: "color: pink", key: '1' }, 'li文本1'),
+                h('li', { style: "color: pink", key: '5' }, 'li文本5'),
+                h('li', { style: "color: pink", key: '2' }, 'li文本2'),
+                h('li', { style: "color: pink", key: '3' }, 'li文本3'),
+                h('li', { style: "color: pink", key: '4' }, 'li文本4')
+            ]), app)
+        }, 3000)
+    </script>
+</body>
+</html>
